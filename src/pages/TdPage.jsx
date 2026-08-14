@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { OFFICIAL_TD_INFO, WSOS_SECTIONS } from '../data/competitionData';
+import { ChevronDown, Download, Layers, Calendar, CheckCircle2, FileText, ArrowUpRight } from 'lucide-react';
+import { OFFICIAL_TD_INFO, WSOS_SECTIONS, TD_EDITIONS_COMPARISON } from '../data/competitionData';
 import { useReveal } from '../hooks/useReveal';
 
 function PageHeader({ eyebrow, title, sub }) {
@@ -14,7 +14,7 @@ function PageHeader({ eyebrow, title, sub }) {
       <h1 style={{ fontSize: 'clamp(22px, 4vw, 36px)', fontWeight: 900, color: 'var(--text)', marginBottom: sub ? 12 : 0, letterSpacing: '-0.025em' }}>
         {title}
       </h1>
-      {sub && <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.75, maxWidth: 600 }}>{sub}</p>}
+      {sub && <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.75, maxWidth: 650 }}>{sub}</p>}
     </div>
   );
 }
@@ -125,20 +125,21 @@ function AccordionItem({ sec, isRtl, index, isOpen, onToggle }) {
 
 export default function TdPage({ lang }) {
   const [expanded, setExpanded] = useState(1);
+  const [selectedYear, setSelectedYear] = useState('2026');
   const isRtl = lang === 'fa';
 
   const meta = isRtl
     ? [
-        { label: 'کد سند',       value: OFFICIAL_TD_INFO.documentCode },
-        { label: 'شماره رشته',   value: OFFICIAL_TD_INFO.skillNumber  },
-        { label: 'بروزرسانی',    value: OFFICIAL_TD_INFO.lastUpdated  },
-        { label: 'ویرایش',       value: 'WSC2026'                     },
+        { label: 'سند استاندارد',  value: 'Technical Description 2026' },
+        { label: 'شماره رشته',    value: 'مهارت ۰۸ (Skill 08)' },
+        { label: 'وضعیت آیین‌نامه', value: 'به‌روزشده برای مسابقات ۲۰۲۶' },
+        { label: 'ویرایش',        value: 'نسخه رسمی ۲۰۲۶' },
       ]
     : [
-        { label: 'Document Code', value: OFFICIAL_TD_INFO.documentCode },
-        { label: 'Skill Number',  value: OFFICIAL_TD_INFO.skillNumber  },
-        { label: 'Last Updated',  value: OFFICIAL_TD_INFO.lastUpdated  },
-        { label: 'Edition',       value: 'WSC2026'                     },
+        { label: 'Standard Document', value: 'Technical Description 2026' },
+        { label: 'Skill Number',      value: 'Skill 08' },
+        { label: 'Status',            value: 'Updated for 2026 Competition' },
+        { label: 'Edition',           value: 'Official 2026 Edition' },
       ];
 
   const quickFacts = isRtl
@@ -155,14 +156,16 @@ export default function TdPage({ lang }) {
         { ref: '5.3.4', title: 'Environment', body: 'Fully offline — no internet' },
       ];
 
+  const activeEd = TD_EDITIONS_COMPARISON.find(e => e.year === selectedYear) || TD_EDITIONS_COMPARISON[2];
+
   return (
     <div style={{ paddingBottom: 80 }} className="page-enter">
       <PageHeader
-        eyebrow={OFFICIAL_TD_INFO.documentCode}
+        eyebrow={isRtl ? 'مشخصات فنی و استانداردهای جهانی' : 'Technical Description & Global Standards'}
         title={isRtl ? 'سند مشخصات فنی (Technical Description)' : 'Technical Description (TD)'}
         sub={isRtl
-          ? 'سند رسمی استانداردهای شغلی WorldSkills برای رشته توسعه برنامه‌های کاربردی موبایل (Skill 08).'
-          : 'Official WorldSkills Occupational Standards for Mobile Applications Development (Skill 08).'}
+          ? 'سند رسمی استانداردهای شغلی WorldSkills برای رشته توسعه برنامه‌های کاربردی موبایل (Skill 08) به‌همراه تحلیل تکامل فنی در دوره‌های مختلف مسابقات.'
+          : 'Official WorldSkills Occupational Standards for Mobile Applications Development (Skill 08) along with technical evolution across competition editions.'}
       />
 
       {/* Meta strip */}
@@ -176,7 +179,7 @@ export default function TdPage({ lang }) {
       </div>
 
       {/* Quick fact cards */}
-      <div className="grid-auto-4" style={{ marginBottom: 44 }}>
+      <div className="grid-auto-4" style={{ marginBottom: 48 }}>
         {quickFacts.map((f, i) => (
           <div
             key={i}
@@ -190,13 +193,123 @@ export default function TdPage({ lang }) {
         ))}
       </div>
 
-      {/* WSOS Accordion */}
+      {/* ── Section: Technical Evolution Across TD Editions (2022, 2024, 2026) ── */}
+      <section style={{ marginBottom: 56 }}>
+        <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: 16, marginBottom: 20 }}>
+          <div style={{ fontSize: 11, color: 'var(--text-3)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 4 }}>
+            {isRtl ? 'تحلیل اسناد فنی ادوار مسابقات' : 'Technical Evolution & Revisions'}
+          </div>
+          <div className="section-title">
+            {isRtl ? 'تکامل و مقایسه Technical Description در سال‌های مختلف' : 'Technical Description Evolution (2022 / 2024 / 2026)'}
+          </div>
+          <p style={{ fontSize: 13, color: 'var(--text-2)', marginTop: 6, lineHeight: 1.7 }}>
+            {isRtl
+              ? 'بررسی تغییرات استانداردها، ابزارهای طراحی، نیازمندی‌های معماری نرم‌افزار و شیوه‌های ارزیابی در ۳ دوره رسمی مسابقات جهانی مهارت.'
+              : 'Detailed comparison of occupational standards, UI design tools, software architecture requirements, and assessment methods across 3 official WorldSkills editions.'}
+          </p>
+        </div>
+
+        {/* Year Select Tabs */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+          {TD_EDITIONS_COMPARISON.map(ed => {
+            const isActive = ed.year === selectedYear;
+            return (
+              <button
+                key={ed.year}
+                onClick={() => setSelectedYear(ed.year)}
+                style={{
+                  padding: '8px 18px',
+                  borderRadius: 8,
+                  fontSize: 13,
+                  fontWeight: isActive ? 700 : 500,
+                  cursor: 'pointer',
+                  border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
+                  background: isActive ? 'var(--accent-subtle)' : 'var(--surface)',
+                  color: isActive ? 'var(--accent)' : 'var(--text-2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  transition: 'all 0.15s ease',
+                  fontFamily: 'IRANSansX, sans-serif'
+                }}
+              >
+                <Calendar size={13} />
+                <span>{isRtl ? `ویرایش ${ed.year}` : `${ed.year} Edition`}</span>
+                {ed.year === '2026' && (
+                  <span className="badge badge-blue" style={{ fontSize: 10, padding: '1px 6px' }}>
+                    {isRtl ? 'فعال' : 'Active'}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Active Year Detail Card */}
+        <div className="card anim-fade-in" style={{ padding: 26, marginBottom: 24 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 20, borderBottom: '1px solid var(--border)', paddingBottom: 16 }}>
+            <div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>
+                {isRtl ? activeEd.editionTitleFa : activeEd.editionTitleEn}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--text-3)' }}>
+                {isRtl ? `وضعیت سند: ${activeEd.statusFa}` : `Document Status: ${activeEd.statusEn}`}
+              </div>
+            </div>
+
+            {/* Direct Real PDF Download Button */}
+            <a
+              href={activeEd.pdfFile}
+              download
+              className="btn btn-primary btn-sm"
+              style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
+            >
+              <Download size={13} />
+              <span>{isRtl ? `دانلود فایل رسمی TD ${activeEd.year} (${activeEd.fileSize})` : `Download Official TD ${activeEd.year} PDF (${activeEd.fileSize})`}</span>
+            </a>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
+            <div style={{ padding: 14, borderRadius: 8, background: 'var(--bg)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 600, marginBottom: 4 }}>{isRtl ? 'ساختار استانداردهای WSOS' : 'WSOS Standard Structure'}</div>
+              <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>{isRtl ? activeEd.wsosStructureFa : activeEd.wsosStructureEn}</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: 'var(--bg)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 600, marginBottom: 4 }}>{isRtl ? 'فناوری‌های رابط کاربری و لایوت' : 'UI Frameworks & Layout Tech'}</div>
+              <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>{isRtl ? activeEd.uiTechFa : activeEd.uiTechEn}</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: 'var(--bg)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 600, marginBottom: 4 }}>{isRtl ? 'توسعه پایدار و کدنویسی سبز' : 'Sustainable Software Development'}</div>
+              <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>{isRtl ? activeEd.sustainableSectionFa : activeEd.sustainableSectionEn}</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: 'var(--bg)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 600, marginBottom: 4 }}>{isRtl ? 'ابزار استاندارد طراحی UI/UX' : 'Standard Design Tools'}</div>
+              <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>{isRtl ? activeEd.designToolFa : activeEd.designToolEn}</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: 'var(--bg)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 600, marginBottom: 4 }}>{isRtl ? 'رویکرد تست و ارزیابی کد' : 'Testing Focus & QA Scope'}</div>
+              <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>{isRtl ? activeEd.testingFocusFa : activeEd.testingFocusEn}</div>
+            </div>
+
+            <div style={{ padding: 14, borderRadius: 8, background: 'var(--bg)', border: '1px solid var(--border)' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 600, marginBottom: 4 }}>{isRtl ? 'ضوابط محیط آفلاین و کارگاه' : 'Offline Environment Rules'}</div>
+              <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>{isRtl ? activeEd.offlineRulesFa : activeEd.offlineRulesEn}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WSOS Accordion (Active 2026 Specification) */}
       <div style={{ marginBottom: 8 }}>
         <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>
-          {isRtl ? 'استانداردهای شغلی WorldSkills (WSOS) — ۷ بخش' : 'WorldSkills Occupational Standards — 7 Sections'}
+          {isRtl ? 'استانداردهای شغلی WorldSkills (WSOS) — ۷ بخش نسخه ۲۰۲۶' : 'WorldSkills Occupational Standards (WSOS) — 7 Sections (2026 Edition)'}
         </div>
         <div style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 16 }}>
-          {isRtl ? 'کلیک کنید تا جزئیات هر بخش را مشاهده کنید.' : 'Click any section to expand its knowledge items.'}
+          {isRtl ? 'برای مشاهده جزئیات دانش و مهارت‌های هر بخش کلیک فرمایید.' : 'Click any section to inspect the required knowledge and competencies.'}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {WSOS_SECTIONS.map((sec, i) => (

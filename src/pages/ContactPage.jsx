@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, ChevronDown, CheckCircle2, Send } from 'lucide-react';
+import { Mail, ChevronDown, CheckCircle2, Send, ExternalLink } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
 
 function PageHeader({ eyebrow, title, sub }) {
@@ -19,14 +19,14 @@ function PageHeader({ eyebrow, title, sub }) {
 }
 
 const FAQS_FA = [
-  { q: 'شرایط سنی شرکت در مسابقات چیست؟', a: 'طبق بند 1.1.4 سند WSC2026_TD08_en، متسابقین در سال برگزاری نباید بیشتر از ۲۲ سال سن داشته باشند.' },
+  { q: 'شرایط سنی شرکت در مسابقات چیست؟', a: 'طبق بند 1.1.4 مشخصات فنی Technical Description 2026، متسابقین در سال برگزاری رقابت‌های بین‌المللی نباید بیشتر از ۲۲ سال سن داشته باشند.' },
   { q: 'آیا دسترسی به اینترنت در طول مسابقه وجود دارد؟', a: 'آزمون در محیط کاملاً آفلاین برگزار می‌شود. هر متسابق مجاز به استفاده از ایستگاه اینترنت مشترک، حداکثر ۲ نوبت ۱۰ دقیقه‌ای در روز است.' },
   { q: 'چه وسایلی را می‌توان به سالن آورد؟', a: 'تنها کیبورد سیم‌دار و موس سیم‌دار شخصی در روز آشنایی مجاز است. لپ‌تاپ، USB، گوشی و سایر وسایل اکیداً ممنوع است.' },
-  { q: 'نمره‌دهی و ارزیابی چگونه انجام می‌شود؟', a: 'ارزیابی از دو روش عینی (Measurement) و توصیفی (Judgement با مقیاس ۰ تا ۳) توسط تیم ۳ نفره کارشناسان در سیستم CIS ثبت می‌شود.' },
+  { q: 'نمره‌دهی و ارزیابی چگونه انجام می‌شود؟', a: 'ارزیابی از دو روش عینی (Measurement) و توصیفی (Judgement با مقیاس ۰ تا ۳) توسط تیم ۳ نفره کارشناسان در سیستم رسمی CIS ثبت می‌شود.' },
 ];
 
 const FAQS_EN = [
-  { q: 'What is the age limit for participating?', a: 'Per section 1.1.4 of WSC2026_TD08_en, competitors must not be older than 22 years in the competition year.' },
+  { q: 'What is the age limit for participating?', a: 'Per section 1.1.4 of Technical Description 2026, competitors must not be older than 22 years in the competition year.' },
   { q: 'Is internet access available during competition?', a: 'Runs in a fully offline environment. Each competitor may use the shared internet station up to 2 × 10-minute sessions per day.' },
   { q: 'What items are allowed in the competition hall?', a: 'Only a wired keyboard and wired mouse on Familiarization Day. Laptops, USB drives, phones, and other devices are strictly prohibited.' },
   { q: 'How is scoring and assessment carried out?', a: 'Two methods: objective (Measurement) and subjective (Judgement on a 0–3 scale) by a team of 3 expert assessors, recorded in the CIS system.' },
@@ -110,14 +110,21 @@ export default function ContactPage({ lang }) {
     transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
   });
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const mailtoUrl = `mailto:contact@skill08.ir?subject=${encodeURIComponent(`[Skill 08] ${form.subject}`)}&body=${encodeURIComponent(`نام: ${form.name}\nایمیل: ${form.email}\n\nپیام:\n${form.message}`)}`;
+    window.location.href = mailtoUrl;
+    setSubmitted(true);
+  };
+
   return (
     <div style={{ paddingBottom: 80 }} className="page-enter">
       <PageHeader
-        eyebrow="Contact & Official Information"
-        title={isRtl ? 'ارتباط با دبیرخانه' : 'Contact the Secretariat'}
+        eyebrow={isRtl ? 'دبیرخانه و ارتباطات' : 'Secretariat & Contact'}
+        title={isRtl ? 'ارتباط با دبیرخانه مسابقات' : 'Contact the Secretariat'}
         sub={isRtl
-          ? 'برای ارتباط با دبیرخانه فنی مسابقات از آدرس پست الکترونیکی رسمی استفاده فرمایید.'
-          : 'Contact the technical secretariat via the official email address.'}
+          ? 'ارتباط مستقیم با کارگروه تخصصی رشته توسعه برنامه‌های کاربردی موبایل (Skill 08) جهت طرح پرسش‌های فنی، استعلام آیین‌نامه‌ها و هماهنگی‌های آموزشی.'
+          : 'Direct communication channel with the Skill 08 technical committee for official inquiries, rules clarifications, and training coordination.'}
       />
 
       <div style={{
@@ -141,7 +148,7 @@ export default function ContactPage({ lang }) {
               </div>
               <div>
                 <div style={{ fontSize: 11, color: 'var(--text-3)', marginBottom: 3 }}>
-                  {isRtl ? 'پست الکترونیکی رسمی' : 'Official Email'}
+                  {isRtl ? 'پست الکترونیکی رسمی دبیرخانه' : 'Official Secretariat Email'}
                 </div>
                 <a
                   href="mailto:contact@skill08.ir"
@@ -155,84 +162,69 @@ export default function ContactPage({ lang }) {
             </div>
             <p style={{ fontSize: 12, color: 'var(--text-2)', lineHeight: 1.7, margin: 0, paddingTop: 14, borderTop: '1px solid var(--border)' }}>
               {isRtl
-                ? 'پاسخگویی به مکاتبات مربیان، کارشناسان استانی و متسابقین.'
-                : 'Correspondence from coaches, provincial experts, and competitors is handled here.'}
+                ? 'پاسخگویی به مکاتبات مربیان، کارشناسان استانی و متسابقین تیم ملی از طریق آدرس فوق انجام می‌پذیرد.'
+                : 'Official correspondence from coaches, provincial experts, and competitors is handled through this email.'}
             </p>
           </div>
 
-          {/* Contact form */}
+          {/* Contact form — coming soon */}
           <div className="card anim-slide-r delay-1" style={{ padding: '22px 24px' }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', marginBottom: 20 }}>
-              {isRtl ? 'ارسال پیام' : 'Send a Message'}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
+                {isRtl ? 'ارسال پیام مستقیم' : 'Send Direct Message'}
+              </div>
+              <span style={{
+                fontSize: 10, fontWeight: 700,
+                color: 'var(--text-3)',
+                border: '1px solid var(--border)',
+                borderRadius: 5,
+                padding: '2px 8px',
+                letterSpacing: '0.05em',
+              }}>
+                {isRtl ? 'به زودی' : 'COMING SOON'}
+              </span>
             </div>
 
-            {submitted ? (
-              <div style={{
-                padding: '28px 20px', textAlign: 'center',
-                background: 'var(--bg)', borderRadius: 10,
-                border: '1px solid var(--border)',
-              }}>
-                <CheckCircle2 size={28} style={{ color: 'var(--green)', margin: '0 auto 12px' }} />
-                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', marginBottom: 6 }}>
-                  {isRtl ? 'پیام شما با موفقیت ارسال شد.' : 'Message sent successfully.'}
+            {/* Disabled form preview */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, opacity: 0.38, pointerEvents: 'none', userSelect: 'none' }}>
+              {[
+                { labelFa: 'نام و نام خانوادگی', labelEn: 'Full Name' },
+                { labelFa: 'پست الکترونیکی', labelEn: 'Email Address' },
+                { labelFa: 'موضوع پیام', labelEn: 'Subject' },
+              ].map((f, i) => (
+                <div key={i}>
+                  <div style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 5 }}>{isRtl ? f.labelFa : f.labelEn}</div>
+                  <div style={{
+                    height: 38, borderRadius: 9, border: '1px solid var(--border)',
+                    background: 'var(--bg)',
+                  }} />
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--text-2)' }}>
-                  {isRtl ? 'پاسخ به آدرس ایمیل شما ارسال خواهد شد.' : 'A reply will be sent to your email address.'}
-                </div>
+              ))}
+              <div>
+                <div style={{ fontSize: 12, color: 'var(--text-2)', marginBottom: 5 }}>{isRtl ? 'متن پیام' : 'Message'}</div>
+                <div style={{ height: 80, borderRadius: 9, border: '1px solid var(--border)', background: 'var(--bg)' }} />
               </div>
-            ) : (
-              <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {[
-                  { name: 'name',    type: 'text',  labelFa: 'نام و نام خانوادگی', labelEn: 'Full Name',     phFa: 'نام کامل', phEn: 'Your name' },
-                  { name: 'email',   type: 'email', labelFa: 'پست الکترونیکی',     labelEn: 'Email Address', phFa: 'email@example.com', phEn: 'email@example.com', dir: 'ltr' },
-                  { name: 'subject', type: 'text',  labelFa: 'موضوع',               labelEn: 'Subject',       phFa: 'موضوع پیام', phEn: 'Message subject' },
-                ].map(field => (
-                  <div key={field.name}>
-                    <label style={{ fontSize: 12, color: 'var(--text-2)', display: 'block', marginBottom: 6 }}>
-                      {isRtl ? field.labelFa : field.labelEn}
-                    </label>
-                    <input
-                      type={field.type}
-                      required
-                      dir={field.dir}
-                      placeholder={isRtl ? field.phFa : field.phEn}
-                      value={form[field.name]}
-                      onChange={e => setForm({ ...form, [field.name]: e.target.value })}
-                      style={fieldStyle(field.name)}
-                      onFocus={() => setFocused(field.name)}
-                      onBlur={() => setFocused(null)}
-                    />
-                  </div>
-                ))}
+              <div style={{
+                height: 40, borderRadius: 9, background: 'var(--accent)', opacity: 0.3,
+              }} />
+            </div>
 
-                <div>
-                  <label style={{ fontSize: 12, color: 'var(--text-2)', display: 'block', marginBottom: 6 }}>
-                    {isRtl ? 'متن پیام' : 'Message'}
-                  </label>
-                  <textarea
-                    required rows={4}
-                    placeholder={isRtl ? 'متن کامل پیام...' : 'Your full message...'}
-                    value={form.message}
-                    onChange={e => setForm({ ...form, message: e.target.value })}
-                    style={{ ...fieldStyle('message'), resize: 'vertical', minHeight: 100 }}
-                    onFocus={() => setFocused('message')}
-                    onBlur={() => setFocused(null)}
-                  />
-                </div>
-
-                <button type="submit" className="btn btn-primary btn-md" style={{ width: '100%', justifyContent: 'center' }}>
-                  <Send size={14} />
-                  <span>{isRtl ? 'ارسال پیام' : 'Send Message'}</span>
-                </button>
-              </form>
-            )}
+            <p style={{ fontSize: 12, color: 'var(--text-3)', lineHeight: 1.7, marginTop: 16, marginBottom: 0 }}>
+              {isRtl
+                ? 'تا راه‌اندازی فرم، از آدرس '
+                : 'Until the form is live, please email '}
+              <a href="mailto:contact@skill08.ir" style={{ color: 'var(--accent)', fontWeight: 600 }}>
+                contact@skill08.ir
+              </a>
+              {isRtl ? ' مستقیماً مکاتبه فرمایید.' : ' directly.'}
+            </p>
           </div>
         </div>
 
         {/* ── Right: FAQ ── */}
         <div className="anim-slide-l">
           <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 16 }}>
-            {isRtl ? 'پرسش‌های متداول' : 'Frequently Asked Questions'}
+            {isRtl ? 'پرسش‌های متداول آیین‌نامه فنی' : 'Frequently Asked Questions'}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             {faqs.map((faq, i) => (

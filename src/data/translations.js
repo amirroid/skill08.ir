@@ -19,7 +19,7 @@ export const VERIFIED_ACHIEVEMENTS = [
   },
   {
     id: 'special-2022',
-    nameFa: 'امیرحسین آقاجاری',
+    nameFa: 'امیرحسین آقاجری',
     nameEn: 'AmirHossein Aghajari',
     year: '2022',
     eventFa: 'رقابت‌های جهانی 2022 Special Edition',
@@ -48,7 +48,7 @@ export const TRANSLATIONS = {
       contact: 'تماس با ما'
     },
     hero: {
-      docCode: 'WSC2026_TD08_en',
+      docCode: 'Technical Description 2026',
       skillBadge: 'Skill 08 | توسعه برنامه‌های کاربردی موبایل',
       title: 'میدان رقابت و سنجش مهارت توسعه‌دهندگان موبایل ایران',
       subtitle: 'تارنمای رسمی استانداردهای شغلی، آیین‌نامه فنی و پودمان‌های پروژه آزمون مسابقات ملی و جهانی مهارت (WorldSkills).',
@@ -91,7 +91,7 @@ export const TRANSLATIONS = {
       contact: 'Contact'
     },
     hero: {
-      docCode: 'WSC2026_TD08_en',
+      docCode: 'Technical Description 2026',
       skillBadge: 'Skill 08 | Mobile Applications Development',
       title: 'Official Platform for Mobile Applications Development in Iran',
       subtitle: 'The official portal for WorldSkills Occupational Standards (WSOS), Technical Description, and Test Project specifications.',

@@ -18,6 +18,7 @@ function PageHeader({ eyebrow, title, sub }) {
   );
 }
 
+/* ── Clean minimal achievement card ── */
 function AchCard({ ach, isRtl, delay }) {
   const [ref, visible] = useReveal();
   const [hov, setHov] = React.useState(false);
@@ -25,72 +26,161 @@ function AchCard({ ach, isRtl, delay }) {
   return (
     <div
       ref={ref}
-      className="card"
       style={{
-        padding: 28,
+        padding: '28px 0',
+        borderBottom: '1px solid var(--border)',
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(20px)',
-        transition: `opacity 0.5s ease ${delay}s, transform 0.5s ease ${delay}s, border-color 0.2s ease, box-shadow 0.2s ease`,
-        borderColor: hov ? 'var(--accent-border)' : undefined,
-        boxShadow: hov ? '0 10px 32px rgba(0,0,0,0.18)' : undefined,
+        transform: visible ? 'translateY(0)' : 'translateY(16px)',
+        transition: `opacity 0.5s ease ${delay}s, transform 0.5s ease ${delay}s`,
         cursor: 'default',
       }}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
     >
-      {/* Top row */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <span className="badge badge-gold">{isRtl ? ach.badgeFa : ach.badgeEn}</span>
-        <span style={{ fontSize: 12, color: 'var(--text-3)' }}>{ach.year}</span>
-      </div>
-
-      {/* Competitor name */}
-      <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--text)', marginBottom: 5 }}>
-          {isRtl ? ach.nameFa : ach.nameEn}
-        </div>
-        <div style={{ fontSize: 13, color: 'var(--text-2)' }}>{isRtl ? ach.eventFa : ach.eventEn}</div>
-      </div>
-
-      {/* Data table */}
-      <div style={{
-        border: '1px solid var(--border)',
-        borderRadius: 10,
-        overflow: 'hidden',
-        marginBottom: 16,
-        transition: 'border-color 0.2s ease',
-        borderColor: hov ? 'var(--accent-border)' : undefined,
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '11px 16px', borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
-          <span style={{ fontSize: 12, color: 'var(--text-3)' }}>{isRtl ? 'رشته' : 'Skill'}</span>
-          <span style={{ fontSize: 12, color: 'var(--text-2)' }}>Mobile Applications Dev — Skill 08</span>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: 'var(--bg)' }}>
-          <span style={{ fontSize: 12, color: 'var(--text-3)' }}>{isRtl ? 'امتیاز CIS' : 'CIS Score'}</span>
-          <span style={{
-            fontSize: 30, fontWeight: 900, color: 'var(--accent)', lineHeight: 1,
-            transition: 'transform 0.2s ease',
-            transform: hov ? 'scale(1.08)' : 'scale(1)',
-            display: 'block',
-          }}>
-            {ach.score}
-          </span>
-        </div>
-      </div>
-
-      {/* Result */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--green)', flexShrink: 0 }} />
-        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--green)' }}>
-          {isRtl ? ach.resultFa : ach.resultEn}
+      {/* Year + badge row */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+        <span style={{
+          fontSize: 11, fontWeight: 700, color: 'var(--text-3)',
+          letterSpacing: '0.05em',
+        }}>
+          {ach.year}
+        </span>
+        <span style={{ width: 1, height: 12, background: 'var(--border)', display: 'inline-block' }} />
+        <span style={{
+          fontSize: 11, fontWeight: 600, color: 'var(--gold)',
+          letterSpacing: '0.04em',
+        }}>
+          {isRtl ? ach.badgeFa : ach.badgeEn}
         </span>
       </div>
 
-      {/* Verified footnote */}
-      <div style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--border)', fontSize: 11, color: 'var(--text-3)' }}>
-        {isRtl ? '✓ ثبت‌شده در سامانه رسمی WorldSkills International' : '✓ Verified by WorldSkills International'}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 20, flexWrap: 'wrap' }}>
+        {/* Left: name + event */}
+        <div>
+          <div style={{
+            fontSize: 'clamp(18px, 3vw, 24px)',
+            fontWeight: 900,
+            letterSpacing: '-0.02em',
+            marginBottom: 6,
+            transition: 'color 0.15s ease',
+            color: hov ? 'var(--accent)' : 'var(--text)',
+          }}>
+            {isRtl ? ach.nameFa : ach.nameEn}
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--text-2)' }}>
+            {isRtl ? ach.eventFa : ach.eventEn}
+          </div>
+        </div>
+
+        {/* Right: CIS score */}
+        <div style={{ textAlign: isRtl ? 'left' : 'right', flexShrink: 0 }}>
+          <div style={{
+            fontSize: 'clamp(32px, 5vw, 44px)',
+            fontWeight: 900,
+            color: hov ? 'var(--accent)' : 'var(--text)',
+            letterSpacing: '-0.04em',
+            lineHeight: 1,
+            transition: 'color 0.2s ease',
+          }}>
+            {ach.score}
+          </div>
+          <div style={{ fontSize: 10, color: 'var(--text-3)', marginTop: 4, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+            CIS Score
+          </div>
+        </div>
+      </div>
+
+      {/* Result row */}
+      <div style={{ marginTop: 18, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{
+          display: 'inline-block',
+          width: 6, height: 6, borderRadius: '50%',
+          background: 'var(--green)',
+          flexShrink: 0,
+          transition: 'transform 0.2s ease',
+          transform: hov ? 'scale(1.4)' : 'scale(1)',
+        }} />
+        <span style={{ fontSize: 12, color: 'var(--text-2)' }}>
+          {isRtl ? ach.resultFa : ach.resultEn}
+        </span>
       </div>
     </div>
+  );
+}
+
+/* ── Iran at Lyon 2024 — structured elements instead of a paragraph ── */
+function IranLyonSection({ isRtl }) {
+  const [ref, visible] = useReveal();
+
+  const metrics = isRtl
+    ? [
+        { value: '۴۷ام', label: 'دوره مسابقات جهانی' },
+        { value: '۱۸',   label: 'متسابق اعزامی ایران' },
+        { value: '۱۵',   label: 'رشته تخصصی' },
+        { value: '۷۱۴',  label: 'امتیاز CIS در Skill 08' },
+      ]
+    : [
+        { value: '47th',  label: 'WorldSkills Edition' },
+        { value: '18',    label: 'Competitors from Iran' },
+        { value: '15',    label: 'Skill Areas' },
+        { value: '714',   label: 'CIS Score in Skill 08' },
+      ];
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        marginTop: 56,
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(20px)',
+        transition: 'opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s',
+      }}
+    >
+      {/* Header */}
+      <div style={{ marginBottom: 32, paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
+        <div style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8 }}>
+          {isRtl ? 'گزارش عملکرد' : 'Performance Report'}
+        </div>
+        <div style={{ fontSize: 'clamp(16px, 3vw, 22px)', fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em' }}>
+          {isRtl ? 'حضور ایران در WorldSkills Lyon 2024' : 'Iran at WorldSkills Lyon 2024'}
+        </div>
+      </div>
+
+      {/* Metrics grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+        gap: 0,
+        borderTop: '1px solid var(--border)',
+      }}>
+        {metrics.map((m, i) => (
+          <div
+            key={i}
+            style={{
+              padding: '24px 0',
+              borderBottom: '1px solid var(--border)',
+              paddingRight: i < metrics.length - 1 ? 24 : 0,
+              borderRight: i < metrics.length - 1 ? '1px solid var(--border)' : 'none',
+              paddingLeft: i > 0 ? 24 : 0,
+            }}
+          >
+            <div style={{
+              fontSize: 'clamp(24px, 4vw, 34px)',
+              fontWeight: 900,
+              color: 'var(--text)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1,
+              marginBottom: 6,
+            }}>
+              {m.value}
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--text-3)', lineHeight: 1.5 }}>
+              {m.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -107,24 +197,15 @@ export default function AchievementsPage({ lang }) {
           : 'Verified official records of Iranian competitors in Mobile Applications Development (Skill 08).'}
       />
 
-      {/* Cards — no rank shown */}
-      <div className="grid-auto-2" style={{ marginBottom: 44 }}>
+      {/* Clean list of achievements — no heavy cards */}
+      <div>
         {VERIFIED_ACHIEVEMENTS.map((ach, i) => (
           <AchCard key={ach.id} ach={ach} isRtl={isRtl} delay={i * 0.1} />
         ))}
       </div>
 
-      {/* Context block */}
-      <div className="card anim-fade-up" style={{ padding: 26 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
-          {isRtl ? 'حضور ایران در WorldSkills Lyon 2024' : "Iran at WorldSkills Lyon 2024"}
-        </div>
-        <p style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.8, margin: 0 }}>
-          {isRtl
-            ? 'جمهوری اسلامی ایران در چهل‌وهفتمین مسابقات جهانی مهارت (Lyon 2024) با ۱۸ متسابق نخبه در ۱۵ رشته تخصصی شرکت نمود. در رشته توسعه برنامه‌های کاربردی موبایل، امیررضا غلامی با کسب ۷۱۴ امتیاز موفق به دریافت دیپلم افتخار بین‌المللی شد.'
-            : 'At the 47th WorldSkills Competition in Lyon 2024, Iran competed with 18 elite competitors across 15 skills. In Mobile Applications Development (Skill 08), Amirreza Gholami earned a CIS score of 714, winning the Medallion for Excellence.'}
-        </p>
-      </div>
+      {/* Structured Lyon 2024 section */}
+      <IranLyonSection isRtl={isRtl} />
     </div>
   );
 }

@@ -23,7 +23,7 @@ const SPECS_FA = [
   { label: 'مدت رقابت',       value: '۱۸ ساعت — ۴ پودمان' },
   { label: 'محیط سیستم',      value: 'کاملاً آفلاین' },
   { label: 'سیستم‌عامل',       value: 'macOS (Workstation)' },
-  { label: 'مرجع رسمی',       value: 'WSC2026_TD08_en' },
+  { label: 'مرجع رسمی',       value: 'Technical Description 2026' },
 ];
 
 const SPECS_EN = [
@@ -32,7 +32,7 @@ const SPECS_EN = [
   { label: 'Duration',           value: '18 hours — 4 modules' },
   { label: 'Environment',        value: 'Fully offline — no internet' },
   { label: 'Operating System',   value: 'macOS (Workstation)' },
-  { label: 'Reference',          value: 'WSC2026_TD08_en' },
+  { label: 'Reference',          value: 'Technical Description 2026' },
 ];
 
 /* Stages — no time field */

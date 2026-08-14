@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download } from 'lucide-react';
+import { Download, FileText, ExternalLink, CheckCircle2 } from 'lucide-react';
 import { useReveal } from '../hooks/useReveal';
 
 function PageHeader({ eyebrow, title, sub }) {
@@ -18,84 +18,74 @@ function PageHeader({ eyebrow, title, sub }) {
   );
 }
 
-const RESOURCES = [
+const REAL_RESOURCES = [
   {
-    id: 1, category: 'docs', code: 'WSC2026_TD08_en',
-    titleFa: 'سند مشخصات فنی (Technical Description)', titleEn: 'Technical Description (TD)',
-    format: 'PDF', size: '767 KB',
-    descFa: 'سند اصلی شامل استانداردهای WSOS، ساختار پودمان‌ها، شیوه ارزیابی و مقررات مسابقه.',
-    descEn: 'Main document containing WSOS standards, module structure, assessment criteria, and competition rules.',
-    link: '/TD.pdf', isOfficial: true,
+    id: 'td-2026',
+    category: 'docs',
+    tag: 'نسخه رسمی ۲۰۲۶',
+    tagEn: 'Official 2026 Edition',
+    titleFa: 'سند مشخصات فنی ۲۰۲۶ (Technical Description 2026)',
+    titleEn: 'Technical Description 2026 (Active Edition)',
+    format: 'PDF',
+    size: '۷۶۷ KB',
+    descFa: 'سند رسمی استانداردهای شغلی WSOS، سرفصل‌های ارزیابی، چارچوب ۴ پودمان مسابقه و قوانین برگزاری مسابقات شانگهای ۲۰۲۶.',
+    descEn: 'Official WorldSkills Technical Description including WSOS weightings, 4 module scopes, and competition guidelines.',
+    link: '/TD-2026.pdf',
+    isOfficial: true,
+    isAvailable: true
   },
   {
-    id: 2, category: 'modules', code: 'MODULES-SPEC-08',
-    titleFa: 'مشخصات پودمان‌های A، B، C و D', titleEn: 'Module A, B, C, D Specifications',
-    format: 'PDF', size: '1.2 MB',
-    descFa: 'راهنمای وظایف، معیارهای ارزیابی و دستگاه‌های هر پودمان.',
-    descEn: 'Breakdown of tasks, assessment criteria, and devices for each module.',
-    link: '#', isOfficial: true,
+    id: 'td-2024',
+    category: 'docs',
+    tag: 'نسخه لیون ۲۰۲۴',
+    tagEn: 'Lyon 2024 Edition',
+    titleFa: 'سند مشخصات فنی ۲۰۲۴ (Technical Description 2024 - Lyon)',
+    titleEn: 'Technical Description 2024 (Lyon Edition)',
+    format: 'PDF',
+    size: '۵۹۷ KB',
+    descFa: 'سند مشخصات فنی چهل‌وهفتمین دوره مسابقات جهانی مهارت در لیون فرانسه با بخش تفکیکی Sustainable Practice و ضوابط Figma.',
+    descEn: 'Official Technical Description used at the 47th WorldSkills Competition in Lyon with sustainable coding standards.',
+    link: '/TD-2024.pdf',
+    isOfficial: true,
+    isAvailable: true
   },
   {
-    id: 3, category: 'tools', code: 'INFRA-LIST-2026',
-    titleFa: 'لیست رسمی ابزارها و کتابخانه‌های مجاز', titleEn: 'Official Whitelisted Tools & Libraries',
-    format: 'PDF', size: '450 KB',
-    descFa: 'فهرست Android Studio، Xcode، Figma، JDKها و کتابخانه‌های Retrofit/Ktor/Alamofire.',
-    descEn: 'Complete list of Android Studio, Xcode, Figma, JDKs, and Retrofit/Ktor/Alamofire libraries.',
-    link: '#', isOfficial: true,
-  },
-  {
-    id: 4, category: 'code', code: 'TEST-SUITE-KOTLIN-SWIFT',
-    titleFa: 'الگوهای تست واحد اتوماتیک', titleEn: 'Automated Unit Test Templates',
-    format: 'ZIP', size: '2.4 MB',
-    descFa: 'الگوهای استاندارد ViewModel، UseCase و Repository مطابق معیارهای ماژول D.',
-    descEn: 'Standard ViewModel, UseCase, and Repository test patterns aligned with Module D criteria.',
-    link: '#', isOfficial: false,
-  },
-  {
-    id: 5, category: 'docs', code: 'CIS-MARK-SCHEME',
-    titleFa: 'جدول توزیع نمرات CIS', titleEn: 'CIS Mark Summary Form',
-    format: 'PDF', size: '320 KB',
-    descFa: 'معیارهای ارزیابی عینی (Measurement) و توصیفی (Judgement ۰ تا ۳) توسط کارشناسان.',
-    descEn: 'Objective (Measurement) and subjective (Judgement 0–3 scale) assessment criteria.',
-    link: '#', isOfficial: true,
-  },
-  {
-    id: 6, category: 'tools', code: 'OFFLINE-DOCS-SDK',
-    titleFa: 'مستندات آفلاین SDK اندروید و iOS', titleEn: 'Offline Android & iOS SDK Docs',
-    format: 'TAR.GZ', size: '850 MB',
-    descFa: 'راهنماهای محلی SDK اندروید و اپل برای استفاده بدون اینترنت در طول مسابقه.',
-    descEn: 'Local Android and Apple SDK documentation for offline use during the competition.',
-    link: '#', isOfficial: true,
-  },
+    id: 'td-2022',
+    category: 'docs',
+    tag: 'نسخه ۲۰۲۲',
+    tagEn: '2022 Special Edition',
+    titleFa: 'سند مشخصات فنی ۲۰۲۲ (Technical Description 2022 - Special Edition)',
+    titleEn: 'Technical Description 2022 (Special Edition)',
+    format: 'PDF',
+    size: '۱.۱ MB',
+    descFa: 'سند مرجع رقابت‌های جهانی ۲۰۲۲ در رشته توسعه برنامه‌های کاربردی موبایل (شامل ساختار اولیه پودمان‌های ۴گانه).',
+    descEn: 'Official Technical Description reference from the 2022 Special Edition Mobile Applications Development competition.',
+    link: '/TD-2022.pdf',
+    isOfficial: true,
+    isAvailable: true
+  }
 ];
 
 const CATS_FA = [
-  { id: 'all', label: 'همه' },
-  { id: 'docs', label: 'اسناد رسمی' },
-  { id: 'modules', label: 'پودمان‌ها' },
-  { id: 'tools', label: 'ابزارها' },
-  { id: 'code', label: 'کد نمونه' },
+  { id: 'all', label: 'همه اسناد رسمی' },
+  { id: 'docs', label: 'Technical Description (همه سال‌ها)' }
 ];
 const CATS_EN = [
-  { id: 'all', label: 'All' },
-  { id: 'docs', label: 'Official Docs' },
-  { id: 'modules', label: 'Modules' },
-  { id: 'tools', label: 'Tools' },
-  { id: 'code', label: 'Sample Code' },
+  { id: 'all', label: 'All Official Documents' },
+  { id: 'docs', label: 'Technical Descriptions' }
 ];
 
 function ResourceRow({ res, isRtl, index }) {
   const [ref, visible] = useReveal();
   const [hov, setHov] = useState(false);
-  const isFirst = index === 0;
 
   return (
     <div
       ref={ref}
       className="card"
       style={{
-        padding: '18px 22px',
-        borderRadius: 4,
+        padding: '20px 22px',
+        borderRadius: 8,
         display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap',
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(12px)',
@@ -108,42 +98,42 @@ function ResourceRow({ res, isRtl, index }) {
       onMouseLeave={() => setHov(false)}
     >
       {/* Left: info */}
-      <div style={{ flex: 1, minWidth: 220 }}>
+      <div style={{ flex: 1, minWidth: 240 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7, flexWrap: 'wrap' }}>
           <span style={{
-            fontSize: 11, fontWeight: 700, color: 'var(--text-3)',
-            background: 'var(--bg)', border: '1px solid var(--border)',
+            fontSize: 11, fontWeight: 700, color: 'var(--accent)',
+            background: 'var(--accent-subtle)', border: '1px solid var(--accent-border)',
             padding: '2px 8px', borderRadius: 4,
           }}>
-            {res.code}
+            {isRtl ? res.tag : res.tagEn}
           </span>
           {res.isOfficial && (
             <span className="badge badge-blue" style={{ fontSize: 10 }}>
-              {isRtl ? 'رسمی TD' : 'Official TD'}
+              {isRtl ? 'سند رسمی WorldSkills' : 'Official WorldSkills Doc'}
             </span>
           )}
         </div>
-        <div style={{ fontSize: 14, fontWeight: 700, color: hov ? 'var(--accent)' : 'var(--text)', marginBottom: 5, transition: 'color 0.15s ease' }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: hov ? 'var(--accent)' : 'var(--text)', marginBottom: 5, transition: 'color 0.15s ease' }}>
           {isRtl ? res.titleFa : res.titleEn}
         </div>
-        <div style={{ fontSize: 12, color: 'var(--text-2)', lineHeight: 1.65 }}>
+        <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.7 }}>
           {isRtl ? res.descFa : res.descEn}
         </div>
       </div>
 
-      {/* Right: meta + download */}
+      {/* Right: meta + direct real download */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: isRtl ? 'flex-start' : 'flex-end', gap: 10, flexShrink: 0 }}>
         <div style={{ fontSize: 11, color: 'var(--text-3)' }}>
           {res.format} · {res.size}
         </div>
         <a
           href={res.link}
-          onClick={e => { if (res.link === '#') e.preventDefault(); }}
-          className="btn btn-ghost btn-sm"
+          download
+          className="btn btn-primary btn-sm"
           style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
         >
-          <Download size={12} />
-          <span>{isRtl ? 'دریافت' : 'Download'}</span>
+          <Download size={13} />
+          <span>{isRtl ? 'دانلود مستقیم فایل' : 'Download PDF'}</span>
         </a>
       </div>
     </div>
@@ -154,44 +144,38 @@ export default function ResourcesPage({ lang }) {
   const isRtl = lang === 'fa';
   const [cat, setCat] = useState('all');
   const cats = isRtl ? CATS_FA : CATS_EN;
-  const filtered = RESOURCES.filter(r => cat === 'all' || r.category === cat);
+  const filtered = REAL_RESOURCES.filter(r => cat === 'all' || r.category === cat);
 
   return (
     <div style={{ paddingBottom: 80 }} className="page-enter">
       <PageHeader
-        eyebrow="Official Documentation & Materials"
-        title={isRtl ? 'مرکز منابع و اسناد رسمی' : 'Resource Center'}
+        eyebrow={isRtl ? 'اسناد و مراجع رسمی' : 'Official Documents & References'}
+        title={isRtl ? 'مرکز دانلود اسناد رسمی مسابقات' : 'Official Documents Center'}
         sub={isRtl
-          ? 'دسترسی مستقیم به اسناد فنی، لیست ابزارهای مجاز، و راهنماهای آماده‌سازی.'
-          : 'Direct access to technical documents, whitelisted tools, and preparation guides.'}
+          ? 'دسترسی مستقیم و دانلود فایل‌های PDF اسناد مشخصات فنی (Technical Description) رشته توسعه برنامه‌های کاربردی موبایل در دوره‌های ۲۰۲۲، ۲۰۲۴ و ۲۰۲۶.'
+          : 'Direct download access to the official Technical Description PDF files for Mobile Applications Development across the 2022, 2024, and 2026 editions.'}
       />
 
-      {/* Category pills */}
-      <div className="anim-fade-up" style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 28 }}>
-        {cats.map(c => (
-          <button
-            key={c.id}
-            onClick={() => setCat(c.id)}
-            style={{
-              padding: '5px 16px', borderRadius: 999, fontSize: 12, fontWeight: 500,
-              cursor: 'pointer',
-              border: `1px solid ${cat === c.id ? 'var(--accent-border)' : 'var(--border)'}`,
-              background: cat === c.id ? 'var(--accent-subtle)' : 'transparent',
-              color: cat === c.id ? 'var(--accent)' : 'var(--text-3)',
-              transition: 'all 0.18s cubic-bezier(0.16,1,0.3,1)',
-              fontFamily: 'IRANSansX, sans-serif',
-            }}
-          >
-            {c.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Resource list with stacked card borders */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {/* Resource list */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {filtered.map((res, i) => (
           <ResourceRow key={res.id} res={res} isRtl={isRtl} index={i} />
         ))}
+      </div>
+
+      {/* Verified note */}
+      <div className="card anim-fade-up" style={{ padding: 22, marginTop: 36, background: 'var(--bg)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+          <CheckCircle2 size={16} style={{ color: 'var(--green)' }} />
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+            {isRtl ? 'اصالت و اعتبار اسناد' : 'Document Authenticity'}
+          </span>
+        </div>
+        <p style={{ fontSize: 12, color: 'var(--text-2)', lineHeight: 1.75, margin: 0 }}>
+          {isRtl
+            ? 'تمامی فایل‌های ارائه‌شده در این بخش مستقیماً از پورتال رسمی سازمان جهانی مهارت (WorldSkills International) استخراج شده و بدون هیچ‌گونه تغییر، جهت استفاده مربیان، کارشناسان و متسابقین تیم ملی در دسترس قرار گرفته است.'
+            : 'All documents provided in this section are authentic files directly obtained from WorldSkills International, made accessible without modification for competitors, coaches, and technical experts.'}
+        </p>
       </div>
     </div>
   );

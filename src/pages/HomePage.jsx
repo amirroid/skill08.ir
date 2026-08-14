@@ -25,7 +25,7 @@ function AnimStat({ value, label, suffix = '', delay }) {
   );
 }
 
-/* ── Achievement Card ── */
+/* ── Achievement row (minimal, no heavy border box) ── */
 function AchCard({ ach, isRtl, delay }) {
   const [ref, visible] = useReveal();
   const [hovered, setHovered] = React.useState(false);
@@ -33,47 +33,40 @@ function AchCard({ ach, isRtl, delay }) {
   return (
     <div
       ref={ref}
-      className="card card-interactive"
       style={{
-        padding: 28,
+        padding: '22px 0',
+        borderBottom: '1px solid var(--border)',
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(18px)',
-        transition: `opacity 0.5s ease ${delay}s, transform 0.5s ease ${delay}s, border-color 0.2s ease, box-shadow 0.2s ease`,
-        borderColor: hovered ? 'var(--accent-border)' : undefined,
-        boxShadow: hovered ? '0 8px 28px rgba(0,0,0,0.18)' : undefined,
+        transform: visible ? 'translateY(0)' : 'translateY(14px)',
+        transition: `opacity 0.5s ease ${delay}s, transform 0.5s ease ${delay}s`,
+        cursor: 'default',
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-        <span className="badge badge-gold">{isRtl ? ach.badgeFa : ach.badgeEn}</span>
-        <span style={{ fontSize: 12, color: 'var(--text-3)' }}>{ach.year}</span>
-      </div>
-      <div style={{ marginBottom: 18 }}>
-        <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>
-          {isRtl ? ach.nameFa : ach.nameEn}
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--text-2)' }}>{isRtl ? ach.eventFa : ach.eventEn}</div>
-      </div>
-
-      {/* Score display */}
-      <div style={{
-        padding: '14px 16px',
-        background: 'var(--bg)',
-        borderRadius: 10,
-        border: `1px solid ${hovered ? 'var(--accent-border)' : 'var(--border)'}`,
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        marginBottom: 14,
-        transition: 'border-color 0.2s ease',
-      }}>
-        <span style={{ fontSize: 12, color: 'var(--text-3)' }}>{isRtl ? 'امتیاز CIS' : 'CIS Score'}</span>
-        <span style={{ fontSize: 28, fontWeight: 900, color: 'var(--accent)', lineHeight: 1 }}>
-          {ach.score}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-3)', letterSpacing: '0.04em' }}>
+          {ach.year}
+        </span>
+        <span style={{ width: 1, height: 10, background: 'var(--border)', display: 'inline-block' }} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--gold)' }}>
+          {isRtl ? ach.badgeFa : ach.badgeEn}
         </span>
       </div>
 
-      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--green)' }}>
-        {isRtl ? ach.resultFa : ach.resultEn}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16 }}>
+        <div>
+          <div style={{ fontSize: 20, fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 4, transition: 'color 0.15s ease', color: hovered ? 'var(--accent)' : 'var(--text)' }}>
+            {isRtl ? ach.nameFa : ach.nameEn}
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--text-2)' }}>{isRtl ? ach.eventFa : ach.eventEn}</div>
+        </div>
+        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+          <div style={{ fontSize: 30, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1, transition: 'color 0.2s ease', color: hovered ? 'var(--accent)' : 'var(--text)' }}>
+            {ach.score}
+          </div>
+          <div style={{ fontSize: 10, color: 'var(--text-3)', marginTop: 3, letterSpacing: '0.05em', textTransform: 'uppercase' }}>CIS Score</div>
+        </div>
       </div>
     </div>
   );
@@ -185,7 +178,9 @@ export default function HomePage({ setActivePage, lang }) {
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section style={{ paddingTop: 72, paddingBottom: 72 }}>
         <div className="anim-fade-up" style={{ marginBottom: 18 }}>
-          <span className="badge badge-blue">WSC2026_TD08_en · Skill 08</span>
+          <span className="badge badge-blue">
+            {isRtl ? 'بر اساس Technical Description 2026 · مهارت ۰۸' : 'Based on Technical Description 2026 · Skill 08'}
+          </span>
         </div>
 
         <h1

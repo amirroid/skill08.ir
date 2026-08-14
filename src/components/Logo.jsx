@@ -1,113 +1,53 @@
 import React from 'react';
 
 /**
- * Logo: A clean SVG mark — mobile frame with </> code brackets inside.
- * Accent color from CSS variable. IRANSansX font for text.
- * Props:
- *   size: 'sm' | 'md' | 'lg'
- *   showText: boolean
- *   isRtl: boolean
+ * Logo: Abstract geometric mark — a clean code slash inside a refined square.
+ * No numerals in the icon. Wordmark carries the "08" identity.
  */
 export default function Logo({ size = 'md', showText = true, isRtl = true }) {
-  const dim = size === 'sm' ? 30 : size === 'lg' ? 48 : 38;
+  const markSize = size === 'sm' ? 30 : size === 'lg' ? 46 : 36;
+  const fontSizeSkill = size === 'sm' ? 12 : size === 'lg' ? 15 : 13;
+  const fontSizeSub   = size === 'sm' ? 9  : size === 'lg' ? 11 : 10;
 
   return (
     <div style={{
       display: 'flex',
       alignItems: 'center',
-      gap: 10,
-      flexDirection: isRtl ? 'row' : 'row',
+      gap: size === 'sm' ? 9 : 11,
     }}>
-      {/* ── SVG Mark ── */}
-      <div style={{
-        width: dim,
-        height: dim,
-        flexShrink: 0,
-        position: 'relative',
-        transition: 'transform 0.25s cubic-bezier(0.16,1,0.3,1)',
-      }}>
-        <svg
-          viewBox="0 0 40 40"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: '100%', height: '100%', display: 'block' }}
-          aria-label="Skill 08 Logo"
-        >
-          {/* ── Phone outer frame ── */}
-          <rect
-            x="7" y="2"
-            width="26" height="36"
-            rx="6"
-            stroke="var(--accent)"
-            strokeWidth="2"
-            fill="none"
-          />
 
-          {/* ── Screen area subtle fill ── */}
-          <rect
-            x="10" y="7"
-            width="20" height="24"
-            rx="3"
-            fill="var(--accent)"
-            fillOpacity="0.08"
-          />
+      {/* ── SVG Mark — slash inside rounded square ── */}
+      <svg
+        width={markSize}
+        height={markSize}
+        viewBox="0 0 36 36"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-label="Skill 08"
+        style={{ display: 'block', flexShrink: 0 }}
+      >
+        {/* Outer square */}
+        <rect width="36" height="36" rx="9" fill="var(--accent)" />
 
-          {/* ── Left bracket < ── */}
-          <path
-            d="M17 15 L13 20 L17 25"
-            stroke="var(--accent)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+        {/* Subtle top gloss */}
+        <rect x="1" y="1" width="34" height="16" rx="8" fill="white" fillOpacity="0.06" />
 
-          {/* ── Right bracket > ── */}
-          <path
-            d="M23 15 L27 20 L23 25"
-            stroke="var(--text)"
-            strokeOpacity="0.6"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+        {/* Single bold chevron — clean, directional, modern */}
+        <path
+          d="M14 11 L23 18 L14 25"
+          stroke="white"
+          strokeWidth="3.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
 
-          {/* ── Slash / ── */}
-          <line
-            x1="21.5" y1="14"
-            x2="18.5" y2="26"
-            stroke="var(--accent)"
-            strokeOpacity="0.55"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-
-          {/* ── Bottom pill / home indicator ── */}
-          <rect
-            x="16" y="34"
-            width="8" height="2"
-            rx="1"
-            fill="var(--text)"
-            fillOpacity="0.25"
-          />
-        </svg>
-      </div>
-
-      {/* ── Text lockup ── */}
+      {/* ── Wordmark ── */}
       {showText && (
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          textAlign: isRtl ? 'right' : 'left',
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            flexDirection: isRtl ? 'row-reverse' : 'row',
-          }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 5 }}>
             <span style={{
-              fontSize: 14,
+              fontSize: fontSizeSkill,
               fontWeight: 800,
               color: 'var(--text)',
               letterSpacing: '-0.02em',
@@ -117,22 +57,19 @@ export default function Logo({ size = 'md', showText = true, isRtl = true }) {
               {isRtl ? 'مهارت ۰۸' : 'Skill 08'}
             </span>
             <span style={{
-              fontSize: 9,
+              fontSize: fontSizeSub - 1,
               fontWeight: 700,
               color: 'var(--accent)',
-              background: 'var(--accent-subtle)',
-              border: '1px solid var(--accent-border)',
-              borderRadius: 4,
-              padding: '1px 5px',
-              letterSpacing: '0.04em',
-              lineHeight: '16px',
+              letterSpacing: '0.05em',
               fontFamily: 'IRANSansX, sans-serif',
+              lineHeight: 1,
+              opacity: 0.9,
             }}>
-              WorldSkills
+              IR
             </span>
           </div>
           <span style={{
-            fontSize: 10,
+            fontSize: fontSizeSub,
             fontWeight: 400,
             color: 'var(--text-3)',
             lineHeight: 1,
