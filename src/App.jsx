@@ -10,58 +10,59 @@ import ResourcesPage from './pages/ResourcesPage';
 import RulesPage from './pages/RulesPage';
 import ContactPage from './pages/ContactPage';
 
-// ── URL ↔ page mapping ──────────────────────────────────────────────────────
-const PATH_TO_PAGE = {
-  '/':                       'home',
-  '/competition':            'competition',
-  '/modules':                'modules',
-  '/technical-description':  'td',
-  '/achievements':           'achievements',
-  '/resources':              'resources',
-  '/rules':                  'rules',
-  '/contact':                'contact',
+// ── Hash ↔ page mapping ─────────────────────────────────────────────────────
+// Uses hash routing (#/path) which works on GitHub Pages and any static host
+// without any server-side rewrite rules.
+
+const HASH_TO_PAGE = {
+  '#/':                      'home',
+  '#/competition':           'competition',
+  '#/modules':               'modules',
+  '#/technical-description': 'td',
+  '#/achievements':          'achievements',
+  '#/resources':             'resources',
+  '#/rules':                 'rules',
+  '#/contact':               'contact',
 };
 
-const PAGE_TO_PATH = {
-  home:         '/',
-  competition:  '/competition',
-  modules:      '/modules',
-  td:           '/technical-description',
-  achievements: '/achievements',
-  resources:    '/resources',
-  rules:        '/rules',
-  contact:      '/contact',
+const PAGE_TO_HASH = {
+  home:         '#/',
+  competition:  '#/competition',
+  modules:      '#/modules',
+  td:           '#/technical-description',
+  achievements: '#/achievements',
+  resources:    '#/resources',
+  rules:        '#/rules',
+  contact:      '#/contact',
 };
 
-function getPageFromPath(pathname) {
-  return PATH_TO_PAGE[pathname] || 'home';
+function getPageFromHash(hash) {
+  // Normalise: '' and '#' both → home
+  const h = hash || '#/';
+  return HASH_TO_PAGE[h] || HASH_TO_PAGE['#/'] || 'home';
 }
 
 // ── App ─────────────────────────────────────────────────────────────────────
 export default function App() {
   const [activePage, setActivePageState] = useState(() =>
-    getPageFromPath(window.location.pathname)
+    getPageFromHash(window.location.hash)
   );
   const [lang,  setLang]  = useState('fa');
   const [theme, setTheme] = useState('dark');
 
-  // Navigate: update state + push URL
+  // Navigate: change hash → browser history entry is created automatically
   const setActivePage = useCallback((page) => {
-    const path = PAGE_TO_PATH[page] || '/';
-    if (window.location.pathname !== path) {
-      window.history.pushState({ page }, '', path);
-    }
-    setActivePageState(page);
+    const hash = PAGE_TO_HASH[page] || '#/';
+    window.location.hash = hash;   // triggers hashchange
   }, []);
 
-  // Browser back / forward
+  // Sync state from hash (handles back/forward and direct URL opens)
   useEffect(() => {
-    const onPop = (e) => {
-      const page = e.state?.page || getPageFromPath(window.location.pathname);
-      setActivePageState(page);
+    const onHashChange = () => {
+      setActivePageState(getPageFromHash(window.location.hash));
     };
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
   // Scroll to top on page change
